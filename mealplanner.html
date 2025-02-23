@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatic Diet Recommendation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        
+        body {
+            background-color: #171350;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            background: #35b840;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        label {
+            font-weight: bold;
+        }
+        
+        input[type="number"], input[type="range"], select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        #results {
+            margin-top: 30px;
+        }
+        
+        h2, h3 {
+            margin-bottom: 10px;
+        }
+        
+        .meal-selection {
+            margin-top: 20px;
+        }
+        
+        select {
+            width: 100%;
+        }
+        
+        p {
+            margin-bottom: 10px;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .slider-container span {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Automatic Diet Recommendation</h1>
+
+        <!-- User Input Form -->
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" id="age" value="2" min="1" max="120">
+
+            <label for="height">Height (cm)</label>
+            <input type="number" id="height" value="50">
+
+            <label for="weight">Weight (kg)</label>
+            <input type="number" id="weight" value="10">
+
+            <label for="gender">Gender</label>
+            <select id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+
+            <label for="activity">Activity Level</label>
+            <div class="slider-container">
+                <input type="range" id="activity" value="1" min="1" max="3" step="1">
+                <span id="activity-label">Little</span>
+            </div>
+
+            <label for="plan">Choose your weight loss plan:</label>
+            <select id="plan">
+                <option value="maintain">Maintain weight</option>
+                <option value="mild">Mild weight loss</option>
+                <option value="loss">Weight loss</option>
+                <option value="extreme">Extreme weight loss</option>
+            </select>
+
+            <label for="meals">Meals per day</label>
+            <div class="slider-container">
+                <input type="range" id="meals" value="3" min="3" max="10" step="1">
+                <span id="meals-label">3</span>
+            </div>
+        </div>
+
+        <button id="generate">Generate</button>
+
+    </div>
+
+    <script>
+        const activitySlider = document.getElementById('activity');
+        const activityLabel = document.getElementById('activity-label');
+        const mealsSlider = document.getElementById('meals');
+        const mealsLabel = document.getElementById('meals-label');
+
+        // Update activity level label based on slider
+        activitySlider.addEventListener('input', () => {
+            const activityValue = activitySlider.value;
+            if (activityValue == 1) {
+                activityLabel.textContent = 'Little';
+            } else if (activityValue == 2) {
+                activityLabel.textContent = 'Medium';
+            } else {
+                activityLabel.textContent = 'Extreme';
+            }
+        });
+
+        // Update meals per day label based on slider
+        mealsSlider.addEventListener('input', () => {
+            mealsLabel.textContent = mealsSlider.value;
+        });
+    </script>
+
+</body>
+</html>
