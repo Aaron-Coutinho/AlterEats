@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Junk Food Alternatives - Altereats</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/food.css"/>
+
+  <!-- ✅ Firebase Compat SDKs -->
+
+  <!-- ✅ Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <div class="logo-circle"></div>
+      Altereats
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="login.html">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Junk Food Alternatives</h1>
+    
+    <div class="input-section">
+      <label for="junkFoodSelect">Select Junk Food:</label>
+      <select id="junkFoodSelect" class="dropdown">
+        <option value="">-- Choose a Junk Food --</option>
+      </select>
+      <button id="generateBtn" class="generate-btn">Generate Alternative</button>
+    </div>
+
+    <div id="errorMessage" style="color: red; margin-top: 10px;"></div>
+
+    <div id="alternatives" class="alternatives-section"></div>
+
+    <div class="bmi-section">
+      <h2>Your BMI</h2>
+      <canvas id="bmiChart" width="400" height="200"></canvas>
+      <p id="bmi-value" style="font-weight: bold; text-align: center;"></p>
+    </div>
+
+    <div class="calorie-section">
+      <h2>Calorie Information</h2>
+      <p id="calorieOutput"></p>
+    </div>
+  </div>
+
+  <!-- ✅ Main JavaScript -->
+  <script src="js/alternatives.js"></script>
+</body>
+</html>

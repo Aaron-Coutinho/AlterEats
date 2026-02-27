@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriPlan - User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Firebase Compat SDK -->
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header animate__animated animate__fadeInDown">
+            <div class="header-content">
+                <i class="fas fa-utensils logo-icon"></i>
+                <div>
+                    <h1>NutriPlan</h1>
+                    <p class="tagline">Your personalized nutrition planning assistant</p>
+                </div>
+            </div>
+            <div class="header-bg"></div>
+        </header>
+
+        <main class="main-content">
+            <form id="nutrition-form" class="nutrition-form">
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <i class="fas fa-user-circle section-icon"></i>
+                        <h2>Personal Details</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="age">
+                                <i class="fas fa-birthday-cake"></i> Age (years)
+                            </label>
+                            <input type="number" id="age" min="13" max="120" required placeholder="e.g. 25">
+                            <div class="error-message" id="age-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="height">
+                                <i class="fas fa-ruler-vertical"></i> Height (cm)
+                            </label>
+                            <input type="number" id="height" min="100" max="250" required placeholder="e.g. 175">
+                            <div class="error-message" id="height-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="weight">
+                                <i class="fas fa-weight"></i> Weight (kg)
+                            </label>
+                            <input type="number" id="weight" min="30" max="300" required placeholder="e.g. 70">
+                            <div class="error-message" id="weight-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-venus-mars"></i> Gender</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="gender" value="Male" checked>
+                                    <span class="radio-custom"></span>
+                                    Male
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="gender" value="Female">
+                                    <span class="radio-custom"></span>
+                                    Female
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Level Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <i class="fas fa-running section-icon"></i>
+                        <h2>Activity Level</h2>
+                    </div>
+                    <div class="form-group">
+                        <div class="select-wrapper">
+                            <select id="activity" required>
+                                <option value="">Select your activity level</option>
+                                <option value="1.2">Sedentary (little or no exercise)</option>
+                                <option value="1.375">Lightly active (light exercise 1-3 days/week)</option>
+                                <option value="1.55">Moderately active (moderate exercise 3-5 days/week)</option>
+                                <option value="1.725">Very active (hard exercise 6-7 days/week)</option>
+                                <option value="1.9">Extremely active (very hard exercise & physical job)</option>
+                            </select>
+                            <i class="fas fa-chevron-down select-arrow"></i>
+                        </div>
+                        <div class="error-message" id="activity-error"></div>
+                    </div>
+                </div>
+
+                <!-- Dietary Restrictions Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <i class="fas fa-allergies section-icon"></i>
+                        <h2>Dietary Needs</h2>
+                    </div>
+                    <div class="form-group">
+                        <label for="allergies">
+                            <i class="fas fa-exclamation-triangle"></i> Food Allergies
+                        </label>
+                        <input type="text" id="allergies" placeholder="e.g., nuts, dairy, shellfish">
+                    </div>
+                    <div class="form-group">
+                        <label for="conditions">
+                            <i class="fas fa-heartbeat"></i> Health Conditions
+                        </label>
+                        <input type="text" id="conditions" placeholder="e.g., diabetes, hypertension">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn animate__animated animate__pulse">
+                        <i class="fas fa-check"></i> Done
+                    </button>
+                    <div class="form-note">
+                        <i class="fas fa-info-circle"></i> We'll save your details for personalized recommendations
+                    </div>
+                </div>
+            </form>
+        </main>
+
+        <!-- Nutrition Assistant Chat -->
+        <button id="chatbot-btn" class="chatbot-btn animate__animated animate__bounceIn">
+            <i class="fas fa-robot"></i>
+            <span>Ask NutriBot</span>
+        </button>
+        <div id="chatbot-popup" class="chatbot-popup">
+            <div class="chatbot-header">
+                <h4><i class="fas fa-robot"></i> NutriBot Assistant</h4>
+                <button id="close-chatbot"><i class="fas fa-times"></i></button>
+            </div>
+            <iframe src="https://www.chatbase.co/chatbot-iframe/12a1ptp2zwzxXiwFt6pSt" title="Nutrition assistant chatbot"></iframe>
+        </div>
+    </div>
+
+    <script src="js/profile-setup.js"></script>
+</body>
+</html>

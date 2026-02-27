@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickFood Analyzer</title>
+    <link rel="stylesheet" href="css/quick.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for visual breakdown -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- ApexCharts for advanced visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!-- D3.js for custom visualizations -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Tippy.js for enhanced tooltips -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1><i class="fas fa-utensils"></i> QuickFood Analyzer</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Analyze Your Food With Our System</h1>
+                <p>Upload a photo of your meal and get instant nutritional information</p>
+                <div class="upload-container">
+                    <button class="primary-btn" id="upload-btn" type="button">
+                        <i class="fas fa-camera"></i> Upload Food Image
+                    </button>
+                    <input type="file" id="food-image-input" accept="image/*"
+                        style="opacity: 0; position: absolute; z-index: -1;">
+                </div>
+                <div class="sample-foods">
+                    <p><i class="fas fa-utensils"></i> QUICK FOOD OPTIONS <i class="fas fa-utensils"></i></p>
+                    <div class="sample-buttons">
+                        <button class="sample-food-btn" data-food="Pizza">
+                            <i class="fas fa-pizza-slice"></i>
+                            <span>Pizza</span>
+                        </button>
+                        <button class="sample-food-btn" data-food="Salad">
+                            <i class="fas fa-leaf"></i>
+                            <span>Salad</span>
+                        </button>
+                        <button class="sample-food-btn" data-food="Burger">
+                            <i class="fas fa-hamburger"></i>
+                            <span>Burger</span>
+                        </button>
+                        <button class="sample-food-btn" data-food="Sushi">
+                            <i class="fas fa-fish"></i>
+                            <span>Sushi</span>
+                        </button>
+                        <button class="sample-food-btn" data-food="Pasta">
+                            <i class="fas fa-utensils"></i>
+                            <span>Pasta</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="analysis-results" class="hidden">
+            <div class="results-container">
+                <h2><i class="fas fa-microscope"></i> Nutritional Analysis</h2>
+                <div class="analysis-grid">
+                    <div class="image-preview-container">
+                        <img id="food-image-preview" src="" alt="Food preview">
+                    </div>
+                    <div class="loader hidden">
+                        <div class="spinner"></div>
+                        <p>Analyzing your food image...</p>
+                    </div>
+
+                    <div class="results-data hidden">
+                        <div class="food-name-section">
+                            <h3>Detected Food</h3>
+                            <div class="food-correction">
+                                <input type="text" id="detected-food" placeholder="Food name" readonly>
+                                <!-- Correction controls removed as they're replaced by JS -->
+                            </div>
+
+                            <div class="food-suggestions">
+                                <h4>Other Names:</h4>
+                                <div id="suggestion-chips">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Calorie summary with visual representation -->
+                        <div class="calorie-summary">
+                            <div class="calorie-total">
+                                <h2 id="calories">0</h2>
+                                <p>calories</p>
+                                <div class="serving-info">
+                                    <span id="serving-size">Standard serving</span>
+                                </div>
+                            </div>
+                            <div class="macro-charts">
+                                <div class="chart-container">
+                                    <div id="nutrient-chart-container">
+                                        <canvas id="nutrient-chart"></canvas>
+                                        <div id="chart-center-text"></div>
+                                    </div>
+                                </div>
+                                <div class="chart-legend">
+                                    <div class="legend-item protein-legend">
+                                        <span class="legend-color"></span>
+                                        <span class="legend-text">Protein</span>
+                                    </div>
+                                    <div class="legend-item carbs-legend">
+                                        <span class="legend-color"></span>
+                                        <span class="legend-text">Carbs</span>
+                                    </div>
+                                    <div class="legend-item fat-legend">
+                                        <span class="legend-color"></span>
+                                        <span class="legend-text">Fat</span>
+                                    </div>
+                                    <div class="legend-item sugar-legend">
+                                        <span class="legend-color"></span>
+                                        <span class="legend-text">Sugar</span>
+                                    </div>
+                                    <div class="legend-item fiber-legend">
+                                        <span class="legend-color"></span>
+                                        <span class="legend-text">Fiber</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Daily value radar chart comparison -->
+                        <div class="detected-food-description">
+                            <h4>About This Food</h4>
+                            <p id="food-description">Loading food information...</p>
+                        </div>
+
+                        <div class="nutrition-grid">
+                            <div class="nutrition-item">
+                                <i class="fas fa-drumstick-bite"></i>
+                                <h4>Protein</h4>
+                                <p id="protein">0g</p>
+                                <div class="nutrient-bar">
+                                    <div class="nutrient-fill protein-fill"></div>
+                                </div>
+                                <span class="percentage" id="protein-percent">0%</span>
+                            </div>
+                            <div class="nutrition-item">
+                                <i class="fas fa-bread-slice"></i>
+                                <h4>Carbs</h4>
+                                <p id="carbs">0g</p>
+                                <div class="nutrient-bar">
+                                    <div class="nutrient-fill carbs-fill"></div>
+                                </div>
+                                <span class="percentage" id="carbs-percent">0%</span>
+                            </div>
+                            <div class="nutrition-item">
+                                <i class="fas fa-oil-can"></i>
+                                <h4>Fat</h4>
+                                <p id="fat">0g</p>
+                                <div class="nutrient-bar">
+                                    <div class="nutrient-fill fat-fill"></div>
+                                </div>
+                                <span class="percentage" id="fat-percent">0%</span>
+                            </div>
+                        </div>
+
+                        <div class="detailed-nutrients">
+                            <h4><i class="fas fa-chart-bar"></i> DETAILED NUTRITIONAL BREAKDOWN</h4>
+                            <div id="nutrientBreakdownChart" style="height: 600px;"></div>
+                        </div>
+
+                        <div class="additional-info">
+                            <h4>Additional Information</h4>
+                            <ul id="additional-details">
+                                <!-- Will be populated by JavaScript -->
+                            </ul>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="primary-btn" id="new-analysis-btn">
+                                <i class="fas fa-plus"></i> Analyze Another Food
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Take a Photo</h3>
+                    <p>Upload a clear image of your food</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>System-Powered Analysis</h3>
+                    <p>Our System identifies the food and its components</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Get Results</h3>
+                    <p>View detailed nutritional information instantly</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about-section">
+            <div class="about-container">
+                <h2>About QuickFood Analyzer</h2>
+                <p>QuickFood Analyzer uses System-powered technology to identify foods from images and provide accurate
+                    nutritional information. Our mission is to make nutrition tracking simple and accessible for
+                    everyone.</p>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-magic"></i>
+                        <h3>System-Powered Analysis</h3>
+                        <p>State-of-the-art image recognition specifically trained on food items</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-database"></i>
+                        <h3>Extensive Food Database</h3>
+                        <p>Comprehensive nutritional data for thousands of food items</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <h3>Instant Results</h3>
+                        <p>Get nutritional information in seconds after uploading your image</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h3><i class="fas fa-utensils"></i> QuickFood Analyzer</h3>
+                <p>Nutrition made easy</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </div>
+            <div class="social-links">
+                <h4>Connect With Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 QuickFood Analyzer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/analyzer.js"></script>
+</body>
+
+</html>
